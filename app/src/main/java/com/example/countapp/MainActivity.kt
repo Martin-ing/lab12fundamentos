@@ -7,14 +7,11 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.example.countapp.ui.theme.CounterAppTheme
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -45,19 +42,26 @@ fun ColorMixer() {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        ColorBar(SelectedColor = red, onValueChange = { red = it })
-        ColorBar(SelectedColor = green, onValueChange = { green = it })
-        ColorBar(SelectedColor = blue, onValueChange = { blue = it })
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .size(170.dp)
+                .background(Color(red, blue, green))
+        )
+        ColorBar(SelectedColor = red, onValueChange = { red = it }, Color = Color.Red)
+        ColorBar(SelectedColor = green, onValueChange = { green = it }, Color = Color.Blue)
+        ColorBar(SelectedColor = blue, onValueChange = { blue = it }, Color = Color.Green)
     }
 }
 
 @Composable
-fun ColorBar(SelectedColor: Float, onValueChange: (Float) -> Unit) {
+fun ColorBar(SelectedColor: Float, onValueChange: (Float) -> Unit, Color: Color) {
+
     Slider(
         value = SelectedColor,
         onValueChange = onValueChange,
         valueRange = 0f..1f,
-        colors = SliderDefaults.colors(thumbColor = Color.Red)
+        colors = SliderDefaults.colors(thumbColor = Color)
     )
 }
 
