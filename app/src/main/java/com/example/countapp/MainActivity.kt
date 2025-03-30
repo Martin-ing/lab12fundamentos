@@ -15,6 +15,13 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.example.countapp.ui.theme.CounterAppTheme
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,19 +35,32 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun ColorMixer() {
-    var count by remember { mutableStateOf(0) }
-
+    var red by remember { mutableStateOf(0f) }
+    var green by remember { mutableStateOf(0f) }
+    var blue by remember { mutableStateOf(0f) }
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Count: $count")
-        Button(onClick = { count++ }) {
-            Text("Increase")
-        }
+        ColorBar(SelectedColor = red, onValueChange = { red = it })
+        ColorBar(SelectedColor = green, onValueChange = { green = it })
+        ColorBar(SelectedColor = blue, onValueChange = { blue = it })
     }
 }
+
+@Composable
+fun ColorBar(SelectedColor: Float, onValueChange: (Float) -> Unit) {
+    Slider(
+        value = SelectedColor,
+        onValueChange = onValueChange,
+        valueRange = 0f..1f,
+        colors = SliderDefaults.colors(thumbColor = Color.Red)
+    )
+}
+
 
 @Preview(showBackground = true)
 @Composable
