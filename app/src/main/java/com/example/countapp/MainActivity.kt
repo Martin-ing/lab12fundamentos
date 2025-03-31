@@ -19,7 +19,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
-
+//Esta parte del codigo ejecuta la aplicacion
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,11 +30,14 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+//Aplicacion principal
 @Composable
 fun ColorMixer() {
+    //Estas variables guardan los valores de RGB
     var red by remember { mutableStateOf(0f) }
     var green by remember { mutableStateOf(0f) }
     var blue by remember { mutableStateOf(0f) }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -42,21 +45,38 @@ fun ColorMixer() {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Text(text = "Color Mixer", style = MaterialTheme.typography.headlineMedium)
+
+        //Caja donde se despliega el color resultante
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .size(170.dp)
-                .background(Color(red, blue, green))
+                .background(Color(red, green, blue))
         )
-        ColorBar(SelectedColor = red, onValueChange = { red = it }, Color = Color.Red)
-        ColorBar(SelectedColor = green, onValueChange = { green = it }, Color = Color.Blue)
-        ColorBar(SelectedColor = blue, onValueChange = { blue = it }, Color = Color.Green)
+
+        //Se mandan a llamar a las barras para el color
+        ColorBar(SelectedColor = red, onValueChange = { red = it }, Color = Color.Red, colorStr = "Red")
+        ColorBar(SelectedColor = green, onValueChange = { green = it }, Color = Color.Green, colorStr = "Green")
+        ColorBar(SelectedColor = blue, onValueChange = { blue = it }, Color = Color.Blue, colorStr = "Blue")
     }
 }
 
+//Funcion para cada barra de color
 @Composable
-fun ColorBar(SelectedColor: Float, onValueChange: (Float) -> Unit, Color: Color) {
+fun ColorBar(SelectedColor: Float, onValueChange: (Float) -> Unit, Color: Color, colorStr: String) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ){
+        //Se muestra el nombre del color y su valor de 0 a 255
+        Text("${colorStr}: ")
+        Text("${(SelectedColor * 255).toInt()}")
+    }
 
+    //Barra donde se selecciona la magnitud
     Slider(
         value = SelectedColor,
         onValueChange = onValueChange,
@@ -65,7 +85,7 @@ fun ColorBar(SelectedColor: Float, onValueChange: (Float) -> Unit, Color: Color)
     )
 }
 
-
+//Esta parte del codigo ejecuta solo el preview
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
